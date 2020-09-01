@@ -38,7 +38,7 @@ func update(w http.ResponseWriter, req *http.Request) {
 
 	pass := req.FormValue("password")
 	if pass != *password {
-		http.Error(w, "Host is not @", http.StatusForbidden)
+		http.Error(w, "Password does not match pre-shared secret", http.StatusForbidden)
 		return
 	}
 
