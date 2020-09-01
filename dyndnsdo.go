@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/coreos/go-systemd/v22/activation"
+	"github.com/coreos/go-systemd/activation"
 	"github.com/digitalocean/godo"
 	"golang.org/x/net/context"
 	"log"
