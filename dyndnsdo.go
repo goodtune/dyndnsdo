@@ -14,6 +14,8 @@ import (
 var (
 	certFile = flag.String("cert", "", "certificate file")
 	keyFile  = flag.String("key", "", "key file")
+	hostname = flag.String("hostname", "@", "hostname to update")
+	password = flag.String("password", "secret", "password check")
 )
 
 func update(w http.ResponseWriter, req *http.Request) {
@@ -26,6 +28,19 @@ func update(w http.ResponseWriter, req *http.Request) {
 	// Obtain data from the query string which we'll need for our API update
 	domain := req.FormValue("domain")
 	ip := req.FormValue("ip")
+
+	// Perform some basic security/permission tests
+	host := req.FormValue("host")
+	if host != "@" {
+		http.Error(w, "Host is not @", http.StatusForbidden)
+		return
+	}
+
+	pass := req.FormValue("password")
+	if pass != *password {
+		http.Error(w, "Host is not @", http.StatusForbidden)
+		return
+	}
 
 	ctx := context.TODO()
 	client := godo.NewFromToken(os.Getenv("DO_API_TOKEN"))
